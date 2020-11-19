@@ -42,7 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected String getJSBundleFile() {
-            return HotSwapUtil.getJSBundleFile();
+            return HotSwapUtil.getJSBundleFile(MainApplication.this);
         }
       };
 
