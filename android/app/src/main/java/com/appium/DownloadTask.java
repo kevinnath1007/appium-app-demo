@@ -1,12 +1,11 @@
 package com.appium;
 
-import android.app.DownloadManager;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.facebook.react.bridge.ReactApplicationContext;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,14 +15,17 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+public class DownloadTask extends AsyncTask<String, Integer, String> {
 
-class DownloadFile extends AsyncTask<String, Integer, String> {
+    Context mContext;
 
-    private Context context;
-    private PowerManager.WakeLock mWakeLock;
+    public DownloadTask(Context context) {
+        mContext = context;
+    }
 
-    public DownloadFile(Context context) {
-        this.context = context;
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
     }
 
     @Override
@@ -33,19 +35,23 @@ class DownloadFile extends AsyncTask<String, Integer, String> {
         HttpURLConnection connection = null;
         try {
             URL url = new URL(sUrl[0]);
+
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setDoOutput(true);
             connection.connect();
-            // download the file
-            File pathDownload = new File(context.getFilesDir(), "index.android.bundle");
+
+            File pathDownload = new File(mContext.getFilesDir(), "index.android.bundle");
             Log.d("TEST :", pathDownload.getAbsolutePath());
+
             input = connection.getInputStream();
             output = new FileOutputStream(pathDownload);
+
             int totalSize = connection.getContentLength();
             byte[] data = new byte[1024 * 256];
             long total = 0;
             int count;
+
             while ((count = input.read(data)) != -1) {
                 // allow canceling with back button
                 if (isCancelled()) {
@@ -77,10 +83,7 @@ class DownloadFile extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (result != null)
-            Log.d("BERHASIL GAN :", "GAMTEMG");
-            Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+        super.onPostExecute(result);
+        Toast.makeText(mContext, "Result: " + result, Toast.LENGTH_LONG).show();
     }
 }

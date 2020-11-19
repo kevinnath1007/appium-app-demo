@@ -2,12 +2,6 @@ package com.appium;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.facebook.react.BuildConfig;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -16,6 +10,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import com.appium.HotSwapPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -31,7 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
+          packages.add(new HotSwapPackage());
           return packages;
         }
 
@@ -42,7 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected String getJSBundleFile() {
-            return HotSwapUtil.getJSBundleFile(MainApplication.this);
+            return HotSwapPackage.getJSBundleFile(MainApplication.this);
         }
       };
 
@@ -73,7 +69,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.appium.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.curly.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);
