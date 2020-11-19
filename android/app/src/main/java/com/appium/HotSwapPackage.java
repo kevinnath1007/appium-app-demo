@@ -36,11 +36,9 @@ public class HotSwapPackage implements ReactPackage {
 
         File newBundle = new File(context.getFilesDir(), "index.android.bundle");
         if (newBundle.exists()) {
-            Toast.makeText(context, "New Bundle: " + newBundle.getAbsolutePath(), Toast.LENGTH_SHORT).show();
             return newBundle.getAbsolutePath();
         }
 
-        Toast.makeText(context, "Old Bundle: " + file, Toast.LENGTH_SHORT).show();
         return file;
     }
 }

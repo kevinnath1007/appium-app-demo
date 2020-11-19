@@ -1,11 +1,12 @@
 package com.appium;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.facebook.react.bridge.ReactApplicationContext;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,9 +19,11 @@ import java.net.URL;
 public class DownloadTask extends AsyncTask<String, Integer, String> {
 
     Context mContext;
+    Activity mActivity;
 
-    public DownloadTask(Context context) {
+    public DownloadTask(Context context, Activity activity) {
         mContext = context;
+        mActivity = activity;
     }
 
     @Override
@@ -42,7 +45,6 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
             connection.connect();
 
             File pathDownload = new File(mContext.getFilesDir(), "index.android.bundle");
-            Log.d("TEST :", pathDownload.getAbsolutePath());
 
             input = connection.getInputStream();
             output = new FileOutputStream(pathDownload);
@@ -65,6 +67,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
                 output.write(data, 0, count);
             }
         } catch (Exception e) {
+            Toast.makeText(mContext, "Download failure!", Toast.LENGTH_LONG).show();
             return e.toString();
         } finally {
             try {
@@ -73,6 +76,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
                 if (input != null)
                     input.close();
             } catch (IOException ignored) {
+                Toast.makeText(mContext, "Download failure!", Toast.LENGTH_LONG).show();
             }
 
             if (connection != null)
@@ -84,6 +88,16 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        Toast.makeText(mContext, "Result: " + result, Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Download finish! Bundle has been stored! ", Toast.LENGTH_LONG).show();
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(mContext, MainActivity.class);
+                        ProcessPhoenix.triggerRebirth(mContext, i);
+                    }
+                },
+        2000);
     }
 }
