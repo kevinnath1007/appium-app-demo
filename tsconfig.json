@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": false,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "lib": [
+      "ES6",
+      "dom",
+      "es2017.object"
+    ],
+    "target": "ESNext",
+    "baseUrl": ".",
+    "types": [
+      "@types/jest"
+    ],
+    "typeRoots": [
+      "./src"
+    ]
+  }
+}

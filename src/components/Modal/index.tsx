@@ -6,7 +6,6 @@ import {
     TextInput,
     NativeModules,
     TouchableOpacity,
-    Dimensions
 } from 'react-native';
 import Button from '../Button';
 import styles from './styles';
@@ -14,9 +13,12 @@ import styles from './styles';
 function Modal(props) {
     const {
         visible,
-        styleTextInput,
         url,
-        onRequestClose
+        label,
+        onRequestClose,
+        containerStyle,
+        textStyle,
+        buttonStyle
     } = props;
 
     const [bundleId, setBundleId] = React.useState('');
@@ -26,7 +28,6 @@ function Modal(props) {
     };
 
     const onPress = () => {
-        console.log(bundleId);
         NativeModules.HotSwapBundle.downloadBundle(url);
     };
 
@@ -40,29 +41,16 @@ function Modal(props) {
                 onRequestClose={onRequestClose}
             >
                 <TouchableOpacity
-                    style={{
-                        flex: 4,
-                        justifyContent: "flex-end",
-                        backgroundColor: 'rgba(0,0,0,0.2)',
-                    }}
+                    style={styles.backgroundOpacity}
                     onPress={onRequestClose}
                     activeOpacity={1}
                 />
-                    <View style={{
-                        flex: 1,
-                        backgroundColor: "white",
-                        borderRadius: 20,
-                        padding: 20,
-                        paddingBottom: 30,
-                        alignItems: "center",
-                        bottom: -15,
-                        width: Math.round(Dimensions.get('window').width),
-                        position: 'absolute',
-                        zIndex: 10
-                    }}
-                    >
-                        <Text>
-                            Set your bundle Id
+                    <View style={[
+                        styles.container,
+                        containerStyle
+                    ]}>
+                        <Text style={textStyle}>
+                            {label || "Set your bundle Id"}
                         </Text>
                         <TextInput
                             value={bundleId}
@@ -71,10 +59,14 @@ function Modal(props) {
                             autoCorrect={false}
                             style={[
                                 styles.textInput,
-                                styleTextInput
+                                textStyle
                             ]}
                         />
                         <Button
+                            style={[
+                                styles.button,
+                                buttonStyle
+                            ]}
                             testID="ModalBundle"
                             onPress={onPress}
                             label="SWAP"

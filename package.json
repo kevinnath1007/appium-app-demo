@@ -25,6 +25,9 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
+    "@types/jest": "26.0.0",
+    "@types/react": "16.9.36",
+    "@types/react-native": "0.63.18",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "@react-native-community/eslint-config": "^1.1.0",
@@ -33,7 +36,8 @@
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1",
-    "reactotron-react-native": "^5.0.0"
+    "reactotron-react-native": "^5.0.0",
+    "typescript": "3.9.5"
   },
   "jest": {
     "preset": "react-native"
