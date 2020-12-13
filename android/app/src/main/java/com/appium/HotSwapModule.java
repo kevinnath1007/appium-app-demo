@@ -1,6 +1,7 @@
 package com.appium;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,10 +26,10 @@ public class HotSwapModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void downloadBundle() {
+    public void downloadBundle(String url) {
         Toast.makeText(getReactApplicationContext(), "Downloading...", Toast.LENGTH_SHORT).show();
 
         final DownloadTask downloadFile = new DownloadTask(getReactApplicationContext(), getCurrentActivity());
-        downloadFile.execute("https://dl.dropboxusercontent.com/s/aqi4i84y9rub228/index.android.bundle");
+        downloadFile.execute(url);
     }
 }
